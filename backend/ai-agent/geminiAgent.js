@@ -119,6 +119,10 @@ Extracted Factual Claims:`;
  * @returns {Array} Array of parsed claims
  */
 function parseClaimsFromResponse(claimsText) {
+  // Minimum length for a claim to be considered substantial
+  // Filters out headers, labels, and fragments that aren't actual claims
+  const MIN_CLAIM_LENGTH = 20;
+  
   const lines = claimsText.split('\n').filter(line => line.trim());
   const claims = [];
   
@@ -130,7 +134,7 @@ function parseClaimsFromResponse(claimsText) {
         claim: match[2].trim(),
         extracted: true
       });
-    } else if (line.trim().length > 20) {
+    } else if (line.trim().length > MIN_CLAIM_LENGTH) {
       // Include substantial lines that aren't numbered
       claims.push({
         claim: line.trim(),
@@ -157,14 +161,16 @@ function validateContent(content) {
     };
   }
   
-  if (content.trim().length < 10) {
+  const trimmedContent = content.trim();
+  
+  if (trimmedContent.length < 10) {
     return {
       valid: false,
       error: 'Content must be at least 10 characters long'
     };
   }
   
-  if (content.length > 50000) {
+  if (trimmedContent.length > 50000) {
     return {
       valid: false,
       error: 'Content exceeds maximum length of 50,000 characters'

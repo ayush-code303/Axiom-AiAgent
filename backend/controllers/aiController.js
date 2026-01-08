@@ -42,7 +42,8 @@ async function summarize(req, res) {
     return res.status(500).json({
       success: false,
       error: 'Failed to process summarization request',
-      details: error.message
+      // Only include error details in development mode
+      ...(process.env.NODE_ENV === 'development' && { details: error.message })
     });
   }
 }
@@ -81,7 +82,8 @@ async function extractClaims(req, res) {
     return res.status(500).json({
       success: false,
       error: 'Failed to process claim extraction request',
-      details: error.message
+      // Only include error details in development mode
+      ...(process.env.NODE_ENV === 'development' && { details: error.message })
     });
   }
 }

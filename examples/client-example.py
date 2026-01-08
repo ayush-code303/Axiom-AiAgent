@@ -98,22 +98,12 @@ def demonstrate_summarization():
     print('\n📝 SUMMARIZATION DEMO\n')
     print_separator()
     
-    long_article = """
-    Artificial Intelligence (AI) has become one of the most transformative 
-    technologies of the 21st century. From virtual assistants like Siri and 
-    Alexa to advanced machine learning systems that can diagnose diseases, 
-    AI is revolutionizing how we live and work.
-    
-    Modern AI systems use neural networks, inspired by the human brain, to 
-    learn patterns from vast amounts of data. These systems can now perform 
-    tasks that once required human intelligence, such as recognizing images, 
-    understanding natural language, and making complex decisions.
-    
-    However, the rise of AI also raises important ethical questions. Issues 
-    like algorithmic bias, job displacement, and privacy concerns need to be 
-    addressed as AI becomes more integrated into society. Ensuring that AI 
-    is developed and deployed responsibly is crucial for its long-term success.
-    """
+    # Using triple quotes without indentation to avoid leading whitespace
+    long_article = """Artificial Intelligence (AI) has become one of the most transformative technologies of the 21st century. From virtual assistants like Siri and Alexa to advanced machine learning systems that can diagnose diseases, AI is revolutionizing how we live and work.
+
+Modern AI systems use neural networks, inspired by the human brain, to learn patterns from vast amounts of data. These systems can now perform tasks that once required human intelligence, such as recognizing images, understanding natural language, and making complex decisions.
+
+However, the rise of AI also raises important ethical questions. Issues like algorithmic bias, job displacement, and privacy concerns need to be addressed as AI becomes more integrated into society. Ensuring that AI is developed and deployed responsibly is crucial for its long-term success."""
     
     print('Original Article:')
     print(long_article.strip())
@@ -145,23 +135,14 @@ def demonstrate_claim_extraction():
     print('\n🔬 CLAIM EXTRACTION DEMO\n')
     print_separator()
     
-    scientific_text = """
-    The speed of light in a vacuum is approximately 299,792,458 meters per 
-    second, often denoted as 'c'. This is a fundamental constant in physics.
-    
-    Albert Einstein's theory of special relativity, published in 1905, 
-    revolutionized our understanding of space and time. The theory states 
-    that the laws of physics are the same for all non-accelerating observers.
-    
-    The equation E=mc² shows the equivalence of energy (E) and mass (m), 
-    with c² representing the speed of light squared. This famous equation 
-    demonstrates that a small amount of mass can be converted into a large 
-    amount of energy.
-    
-    The theory of general relativity, published in 1915, extends special 
-    relativity to include gravity. It describes gravity not as a force, 
-    but as a curvature of spacetime caused by mass and energy.
-    """
+    # Using triple quotes without indentation to avoid leading whitespace
+    scientific_text = """The speed of light in a vacuum is approximately 299,792,458 meters per second, often denoted as 'c'. This is a fundamental constant in physics.
+
+Albert Einstein's theory of special relativity, published in 1905, revolutionized our understanding of space and time. The theory states that the laws of physics are the same for all non-accelerating observers.
+
+The equation E=mc² shows the equivalence of energy (E) and mass (m), with c² representing the speed of light squared. This famous equation demonstrates that a small amount of mass can be converted into a large amount of energy.
+
+The theory of general relativity, published in 1915, extends special relativity to include gravity. It describes gravity not as a force, but as a curvature of spacetime caused by mass and energy."""
     
     print('Text to Analyze:')
     print(scientific_text.strip())
