@@ -5,6 +5,7 @@
 
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import config from '../config/config.js';
+import { generateHash } from '../utils/verification.js';
 
 /**
  * Get the Gemini model instance
@@ -20,7 +21,7 @@ const getModel = () => {
 
 /**
  * Summarize Content
- * Takes user-provided content and generates a concise summary
+ * Takes user-provided content and generates a concise bullet-point summary
  * 
  * @param {string} content - The text content to summarize
  * @returns {Promise<Object>} Object containing the summary and metadata
@@ -28,28 +29,29 @@ const getModel = () => {
 export async function summarizeContent(content) {
   try {
     const model = getModel();
-    
-    // Create a clear prompt for summarization
-    const prompt = `Please provide a clear and concise summary of the following content. 
-Focus on the main ideas and key points. Keep the summary informative but brief.
-
-Content to summarize:
-${content}
-
-Summary:`;
+    const prompt = buildSummaryPrompt(content);
 
     const result = await model.generateContent(prompt);
     const response = await result.response;
-    const summary = response.text();
-    
+    const summaryText = response.text();
+    const summaryBullets = parseBullets(summaryText);
+
+    if (!summaryBullets.length) {
+      throw new Error('No summary bullets were generated');
+    }
+
+    const timestamp = new Date().toISOString();
+    const verificationHash = generateHash(content, timestamp);
+
     return {
       success: true,
-      summary: summary.trim(),
+      bullets: summaryBullets,
+      bulletCount: summaryBullets.length,
+      rawSummary: summaryText.trim(),
       originalLength: content.length,
-      summaryLength: summary.length,
-      timestamp: new Date().toISOString(),
-      // Placeholder for future blockchain verification hash
-      verificationHash: null
+      summaryLength: summaryText.length,
+      timestamp,
+      verificationHash
     };
   } catch (error) {
     console.error('Error in summarizeContent:', error.message);
@@ -89,15 +91,17 @@ Extracted Factual Claims:`;
     // Parse the response to structure the claims
     const claimsArray = parseClaimsFromResponse(claimsText);
     
+    const timestamp = new Date().toISOString();
+    const verificationHash = generateHash(content, timestamp);
+
     return {
       success: true,
       claims: claimsArray,
       totalClaims: claimsArray.length,
       rawResponse: claimsText.trim(),
-      timestamp: new Date().toISOString(),
-      // Placeholder for future blockchain verification
-      verificationHash: null,
-      blockchainReady: true  // Flag indicating this data structure is ready for blockchain integration
+      timestamp,
+      verificationHash,
+      blockchainReady: true
     };
   } catch (error) {
     console.error('Error in extractFactualClaims:', error.message);
@@ -138,6 +142,29 @@ function parseClaimsFromResponse(claimsText) {
   });
   
   return claims;
+}
+
+function parseBullets(text) {
+  const MIN_LENGTH = 10;
+  return text
+    .split('\n')
+    .map(line => line.trim())
+    .filter(Boolean)
+    .map(line => line.replace(/^[-*]\s*/, '').replace(/^\d+\.\s*/, ''))
+    .filter(line => line.length >= MIN_LENGTH);
+}
+
+function buildSummaryPrompt(content) {
+  return `Summarize the content below into 3-6 concise bullet points.
+- Focus only on factual, verifiable information (who/what/when/where/how many).
+- Use short, direct sentences.
+- Do not add commentary or extra headings.
+- Output as plain text bullets starting with "- ".
+
+Content:
+${content}
+
+Bullet summary:`;
 }
 
 /**

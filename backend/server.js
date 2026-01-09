@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 
 import config from './config/config.js';
 import aiRoutes from './routes/aiRoutes.js';
+import verificationRoutes from './routes/verificationRoutes.js';
 import requestLogger from './middleware/requestLogger.js';
 import { errorHandler, notFound } from './middleware/errorHandler.js';
 
@@ -26,6 +27,7 @@ app.get('/health', (req, res) => {
 });
 
 app.use('/api/ai', aiRoutes);
+app.use('/api/verify', verificationRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
