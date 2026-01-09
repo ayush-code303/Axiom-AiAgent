@@ -15,9 +15,18 @@ const config = {
     rpcUrl: process.env.BLOCKCHAIN_RPC_URL,
     privateKey: process.env.BLOCKCHAIN_PRIVATE_KEY,
     contractAddress: process.env.BLOCKCHAIN_CONTRACT_ADDRESS,
-    contractAbi: process.env.BLOCKCHAIN_CONTRACT_ABI ? JSON.parse(process.env.BLOCKCHAIN_CONTRACT_ABI) : null,
+    contractAbi: null,
   },
 };
+
+// Safely parse contract ABI if provided
+if (process.env.BLOCKCHAIN_CONTRACT_ABI) {
+  try {
+    config.blockchain.contractAbi = JSON.parse(process.env.BLOCKCHAIN_CONTRACT_ABI);
+  } catch (error) {
+    console.warn('BLOCKCHAIN_CONTRACT_ABI is invalid JSON; blockchain features will be unavailable.');
+  }
+}
 
 if (!config.geminiApiKey) {
   console.warn('GEMINI_API_KEY is not set; AI features will be unavailable.');
