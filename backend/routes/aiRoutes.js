@@ -1,16 +1,12 @@
 /**
  * AI Agent Routes
  * Defines the API endpoints for AXIOM AI Agent
- * 
- * Available endpoints:
- * - POST /api/ai/summarize - Summarize content
- * - POST /api/ai/extract-claims - Extract factual claims
- * - GET /api/ai/health - Health check
  */
 
-const express = require('express');
+import express from 'express';
+import { extractClaims, healthCheck, summarize } from '../controllers/aiController.js';
+
 const router = express.Router();
-const aiController = require('../controllers/aiController');
 
 /**
  * POST /api/ai/summarize
@@ -30,7 +26,7 @@ const aiController = require('../controllers/aiController');
  *   "timestamp": "2024-01-01T00:00:00.000Z"
  * }
  */
-router.post('/summarize', aiController.summarize);
+router.post('/summarize', summarize);
 
 /**
  * POST /api/ai/extract-claims
@@ -49,7 +45,7 @@ router.post('/summarize', aiController.summarize);
  *   "timestamp": "2024-01-01T00:00:00.000Z"
  * }
  */
-router.post('/extract-claims', aiController.extractClaims);
+router.post('/extract-claims', extractClaims);
 
 /**
  * GET /api/ai/health
@@ -62,6 +58,6 @@ router.post('/extract-claims', aiController.extractClaims);
  *   "timestamp": "2024-01-01T00:00:00.000Z"
  * }
  */
-router.get('/health', aiController.healthCheck);
+router.get('/health', healthCheck);
 
-module.exports = router;
+export default router;

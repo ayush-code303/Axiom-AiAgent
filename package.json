@@ -2,6 +2,7 @@
   "name": "axiom-ai-agent",
   "version": "1.0.0",
   "description": "AXIOM is a conversational AI agent that summarizes information and extracts key factual claims using Google Gemini API, designed for future blockchain-based verification",
+  "type": "module",
   "main": "backend/server.js",
   "scripts": {
     "start": "node backend/server.js",
@@ -20,6 +21,7 @@
   "dependencies": {
     "express": "^4.18.2",
     "dotenv": "^16.3.1",
+    "cors": "^2.8.5",
     "@google/generative-ai": "^0.1.3"
   }
 }

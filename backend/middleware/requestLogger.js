@@ -3,7 +3,7 @@
  * Logs incoming requests for debugging and monitoring
  */
 
-function requestLogger(req, res, next) {
+export default function requestLogger(req, res, next) {
   const timestamp = new Date().toISOString();
   console.log(`[${timestamp}] ${req.method} ${req.path}`);
   
@@ -17,5 +17,3 @@ function requestLogger(req, res, next) {
   
   next();
 }
-
-module.exports = requestLogger;
